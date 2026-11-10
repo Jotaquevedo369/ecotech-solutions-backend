@@ -1,0 +1,51 @@
+@startuml diagrama_ecotech
+skinparam classAttributeIconSize 0
+
+class Usuario {
+    - correo: String
+    - passwordHash: String
+    - rol: String
+    + autenticar(password: String): Boolean
+}
+
+class Empleado {
+    - id: String
+    - nombre: String
+    - direccion: String
+    - telefono: String
+    - fechaContrato: Date
+    - salario: Float
+    + asignarDepartamento(dep: Departamento)
+    + getSalario(): Float
+    + getId(): String
+}
+
+class Departamento {
+    - nombre: String
+    - gerente: Empleado
+    + agregarEmpleado(emp: Empleado)
+    + removerEmpleado(emp: Empleado)
+}
+
+class Proyecto {
+    - nombre: String
+    - descripcion: String
+    - fechaInicio: Date
+    + registrarEmpleado(emp: Empleado)
+}
+
+class RegistroTiempo {
+    - fecha: Date
+    - horasTrabajadas: Float
+    - descripcionTareas: String
+    + guardarRegistro()
+}
+
+' Relaciones estructurales (UML)
+Usuario <|-- Empleado : Herencia
+Departamento "1" o-- "0..*" Empleado : Agregación (tiene)
+Empleado "1" --> "1" Departamento : Gestiona (Gerente)
+Empleado "1..*" -- "0..*" Proyecto : Asociación (trabaja en)
+RegistroTiempo "*" --> "1" Empleado : Registra
+RegistroTiempo "*" --> "1" Proyecto : Pertenece a
+@enduml
